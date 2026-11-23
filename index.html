@@ -8,14 +8,14 @@
 :root{
   --bg:#ffffff;--text:#1f1f1e;--text2:#6b6b66;--text3:#9a9a94;
   --line:#e4e4df;--line2:#d4d4ce;--hover:#f0f0ec;--danger:#c0392b;
-  --ink:#222222;--focus:#ff4d00;--url:#666666;--ov:rgba(0,0,0,.4);
+  --ink:#222222;--focus:#ff4f14;--url:#666666;--ov:rgba(0,0,0,.4);
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{font:13px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
 button{font:inherit;color:inherit;cursor:pointer}
 .hub{display:grid;grid-template-columns:220px minmax(0,1fr);height:100vh}
-.lnb{display:flex;flex-direction:column;min-width:0;min-height:0;background:#444444;color:#ffffff}
+.lnb{display:flex;flex-direction:column;min-width:0;min-height:0;background:#333333;color:#ffffff}
 .hd{display:flex;align-items:center;gap:6px;padding:12px 10px 8px 14px}
 .hd b{flex:1;font-weight:600;font-size:14px;color:#ffffff}
 .badge{font-size:11px;color:#ffffff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:0 7px}
@@ -51,22 +51,24 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ph b svg{width:22px;height:22px;stroke:var(--focus);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .who{font-size:12px;color:var(--text2)}
 .pop .ib:hover{background:var(--hover)}
+.pop #close{width:30px;height:30px}
+.pop #close:hover{border-radius:50%;background:#ffdbcc}
 .pb{padding:20px;overflow:auto;display:flex;flex-direction:column;gap:0}
 .grp{display:flex;flex-direction:column;gap:8px;padding:20px 0;border-bottom:1px solid var(--line)}
 .grp:first-child{padding-top:0}
 .row{display:flex;align-items:center;gap:6px}
-input[type=text]{flex:1;min-width:0;height:40px;padding:0 14px;border:1px solid var(--line2);border-radius:9px;background:var(--bg);color:var(--text);font:inherit}
+input[type=text]{flex:1;min-width:0;height:40px;padding:0 14px;border:1px solid #e4e3e2;border-radius:9px;background:var(--bg);color:var(--text);font:inherit}
 input[type=text]:focus{outline:0;border-color:var(--focus)}
 input[type=text].gname{font-weight:700;font-size:14px}
 .tool .tn{flex:0 0 36%}
 input.url{color:var(--url)}
 .ib.rb{flex:none;width:30px;height:30px;border:1px solid var(--line2);border-radius:50%;color:var(--text)}
 .ib.rb svg{width:15px;height:15px}
-.btn{height:36px;padding:0 16px;border:2px solid #d6d2d1;border-radius:9px;background:transparent;color:var(--ink);font-weight:700}
-.btn:hover{background:var(--hover)}
+.btn{height:36px;padding:0 16px;border:0;border-radius:9px;background:#ffdbcc;color:var(--ink);font-weight:700}
+.btn:hover{filter:brightness(.96)}
 .btn.pri{background:var(--focus);border-color:var(--focus);color:#ffffff}
 .btn.pri:hover{filter:brightness(.92)}
-.btn.add{align-self:flex-start;height:40px;padding:0 21px;font-weight:700;border-style:solid}
+.btn.add{align-self:flex-start;height:40px;padding:0 21px;font-weight:700;}
 .pb>.btn.add{margin-top:20px}
 .pf{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}
 .msg{flex:1;font-size:12px;color:var(--text3)}
