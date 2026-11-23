@@ -6,66 +6,69 @@
 <title>제작 도구 허브</title>
 <style>
 :root{
-  --bg:#ffffff;--side:#f6f6f4;--text:#1f1f1e;--text2:#6b6b66;--text3:#9a9a94;
-  --line:#e4e4df;--hover:#ebebe7;--accent-bg:#e6f0fb;--accent:#185fa5;--danger:#c0392b;
-  --pri:#1f1f1e;--on-pri:#ffffff;--ov:rgba(0,0,0,.4);
-}
-@media (prefers-color-scheme:dark){
-  :root{--bg:#1c1c1b;--side:#242423;--text:#ececea;--text2:#a5a5a0;--text3:#7a7a75;
-  --line:#383836;--hover:#303030;--accent-bg:#1d3550;--accent:#8ec1f5;--danger:#ff8a7a;
-  --pri:#ececea;--on-pri:#1c1c1b;--ov:rgba(0,0,0,.6)}
+  --bg:#ffffff;--text:#1f1f1e;--text2:#6b6b66;--text3:#9a9a94;
+  --line:#e4e4df;--line2:#d4d4ce;--hover:#f0f0ec;--danger:#c0392b;
+  --ink:#222222;--focus:#ff4d00;--url:#666666;--ov:rgba(0,0,0,.4);
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{font:13px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
 button{font:inherit;color:inherit;cursor:pointer}
 .hub{display:grid;grid-template-columns:220px minmax(0,1fr);height:100vh}
-.lnb{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--side);border-right:1px solid var(--line)}
+.lnb{display:flex;flex-direction:column;min-width:0;min-height:0;background:#444444;color:#ffffff}
 .hd{display:flex;align-items:center;gap:6px;padding:12px 10px 8px 14px}
-.hd b{flex:1;font-weight:600;font-size:14px}
-.badge{font-size:11px;color:var(--text3);border:1px solid var(--line);border-radius:999px;padding:0 7px}
-.ib{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;background:transparent;border-radius:6px;color:var(--text2);padding:0}
-.ib:hover{background:var(--hover);color:var(--text)}
-.ib svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.tabs{display:flex;gap:4px;overflow-x:auto;padding:4px 10px 10px;border-bottom:1px solid var(--line);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
+.hd b{flex:1;font-weight:600;font-size:14px;color:#ffffff}
+.badge{font-size:11px;color:#ffffff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:0 7px}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;background:transparent;border-radius:6px;color:inherit;padding:0}
+.ib svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lnb .ib:hover{background:rgba(255,255,255,.14)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:4px 10px 10px;border-bottom:1px solid rgba(255,255,255,.16);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
 .tabs::-webkit-scrollbar{display:none}
 .tabs.drag{cursor:grabbing}
-.tab{flex:none;padding:4px 13px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text2);white-space:nowrap}
-.tab.on{background:var(--pri);color:var(--on-pri);border-color:var(--pri)}
+.tab{flex:none;padding:4px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#ffffff;white-space:nowrap}
+.tab.on{background:var(--focus);border-color:var(--focus);font-weight:600}
 .list{flex:1;margin:0;padding:8px;list-style:none;overflow:auto}
-.it{display:flex;align-items:center;gap:2px;padding:6px 4px 6px 10px;border-radius:8px;cursor:pointer}
-.it:hover{background:var(--hover)}
-.it.on{background:var(--accent-bg);color:var(--accent);font-weight:600}
+.it{display:flex;align-items:center;gap:2px;padding:6px 4px 6px 10px;border-radius:8px;cursor:pointer;color:#ffffff}
+.it:hover{background:rgba(255,255,255,.1)}
+.it.on{background:var(--focus);font-weight:600}
 .it .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.it .ib{visibility:hidden;color:inherit}
+.it .ib{visibility:hidden}
 .it:hover .ib,.it.on .ib{visibility:visible}
-.none{padding:12px 10px;color:var(--text3)}
+.it.on .ib:hover{background:rgba(255,255,255,.22)}
+.none{padding:12px 10px;color:rgba(255,255,255,.65)}
 .stage{position:relative;min-width:0;min-height:0;background:var(--bg)}
 .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
 .loading{position:absolute;inset:0;z-index:2;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);color:var(--text3)}
-.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--focus);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text3);text-align:center;padding:24px}
+
 .ov{position:fixed;inset:0;background:var(--ov);display:flex;align-items:center;justify-content:center;z-index:10;padding:16px}
 .ov[hidden]{display:none}
-.pop{width:560px;max-width:100%;max-height:calc(100vh - 32px);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-radius:12px}
-.ph{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
-.ph b{flex:1;font-size:14px;font-weight:600}
+.pop{width:640px;max-width:100%;max-height:calc(100vh - 32px);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-radius:12px}
+.ph{display:flex;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.ph b{flex:1;display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700}
+.ph b svg{width:22px;height:22px;stroke:var(--focus);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .who{font-size:12px;color:var(--text2)}
-.pb{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:12px}
-.grp{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px}
-.row{display:flex;align-items:center;gap:4px}
-input[type=text]{flex:1;min-width:0;height:30px;padding:0 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:inherit}
-input[type=text]:focus{outline:2px solid var(--accent);outline-offset:-1px}
-.gname{font-weight:600}
+.pop .ib:hover{background:var(--hover)}
+.pb{padding:20px;overflow:auto;display:flex;flex-direction:column;gap:0}
+.grp{display:flex;flex-direction:column;gap:8px;padding:20px 0;border-bottom:1px solid var(--line)}
+.grp:first-child{padding-top:0}
+.row{display:flex;align-items:center;gap:6px}
+input[type=text]{flex:1;min-width:0;height:40px;padding:0 14px;border:1px solid var(--line2);border-radius:9px;background:var(--bg);color:var(--text);font:inherit}
+input[type=text]:focus{outline:0;border-color:var(--focus)}
+input[type=text].gname{font-weight:700;font-size:14px}
 .tool .tn{flex:0 0 36%}
-.tool{padding-left:12px}
-.btn{height:30px;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:transparent}
+input.url{color:var(--url)}
+.ib.rb{flex:none;width:30px;height:30px;border:1px solid var(--line2);border-radius:50%;color:var(--text)}
+.ib.rb svg{width:15px;height:15px}
+.btn{height:36px;padding:0 16px;border:2px solid #d6d2d1;border-radius:9px;background:transparent;color:var(--ink);font-weight:700}
 .btn:hover{background:var(--hover)}
-.btn.pri{background:var(--pri);color:var(--on-pri);border-color:var(--pri)}
-.btn.add{align-self:flex-start;color:var(--text2);border-style:dashed}
-.ib.del:hover{color:var(--danger)}
-.pf{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:10px 14px;border-top:1px solid var(--line)}
+.btn.pri{background:var(--focus);border-color:var(--focus);color:#ffffff}
+.btn.pri:hover{filter:brightness(.92)}
+.btn.add{align-self:flex-start;height:40px;padding:0 21px;font-weight:700;border-style:solid}
+.pb>.btn.add{margin-top:20px}
+.pf{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}
 .msg{flex:1;font-size:12px;color:var(--text3)}
 .msg.err{color:var(--danger)}
 @media (max-width:640px){.hub{grid-template-columns:170px minmax(0,1fr)}}
@@ -77,9 +80,9 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:-1px}
     <header class="hd">
       <b>제작 도구 허브</b>
       <span class="badge" id="badge" hidden>임시 저장</span>
-      <button class="ib" id="gear" title="설정" aria-label="설정"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+      <button class="ib" id="gear" title="설정" aria-label="설정"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
     </header>
-    <nav class="tabs" id="tabs" aria-label="구분"></nav>
+    <nav class="tabs" id="tabs" aria-label="카테고리"></nav>
     <ul class="list" id="list"></ul>
   </aside>
   <main class="stage" id="stage"><div class="empty" id="empty"></div><div class="loading" id="loading" role="status"><div class="spin"></div><span>불러오는 중…</span></div></main>
@@ -87,7 +90,7 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:-1px}
 
 <div class="ov" id="ov" hidden>
   <div class="pop" role="dialog" aria-modal="true" aria-label="설정">
-    <div class="ph"><b>설정</b><span class="who" id="who"></span><button class="btn" id="logout" hidden>로그아웃</button><button class="ib" id="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="ph"><b><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>설정</b><span class="who" id="who"></span><button class="btn" id="logout" hidden>로그아웃</button><button class="ib" id="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
     <div class="pb" id="pb"></div>
     <div class="pf"><span class="msg" id="msg">저장하면 팀 전체에 반영됩니다.</span><button class="btn" id="cancel">취소</button><button class="btn pri" id="save">저장</button></div>
   </div>
@@ -134,11 +137,11 @@ const lsGet = k => { try { return localStorage.getItem(k); } catch { return null
 const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
 const svg = d => `<svg viewBox="0 0 24 24">${d}</svg>`;
 const ICON = {
-  refresh: svg('<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>'),
-  ext: svg('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
-  up: svg('<path d="M6 15l6-6 6 6"/>'),
-  down: svg('<path d="M6 9l6 6 6-6"/>'),
-  del: svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-12M9 7V4h6v3"/>')
+  refresh: svg('<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'),
+  ext: svg('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'),
+  up: svg('<path d="m18 15-6-6-6 6"/>'),
+  down: svg('<path d="m6 9 6 6 6-6"/>'),
+  del: svg('<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>')
 };
 function el(tag, props = {}, kids = []) {
   const n = document.createElement(tag);
@@ -235,7 +238,7 @@ function renderTabs() {
 function renderList() {
   const ul = $('list'); ul.innerHTML = '';
   const g = data.groups.find(x => x.id === curG);
-  if (!g || !g.tools.length) { ul.append(el('li', { class: 'none' }, '등록된 도구가 없습니다. 설정에서 추가하세요.')); return; }
+  if (!g || !g.tools.length) { ul.append(el('li', { class: 'none' }, '등록된 제작 도구가 없습니다. 설정에서 추가하세요.')); return; }
   g.tools.forEach(t => {
     ul.append(el('li', { class: 'it' + (t.id === curT ? ' on' : ''), onclick: () => { curT = t.id; normalizeSelection(); renderList(); showTool(); } }, [
       el('span', { class: 'nm', title: t.name }, t.name),
@@ -248,7 +251,7 @@ function showTool() {
   const t = curT && data.groups.flatMap(g => g.tools).find(x => x.id === curT);
   for (const [, f] of frames) f.el.style.display = 'none';
   const empty = $('empty');
-  if (!t) { empty.style.display = 'flex'; empty.textContent = data.groups.length ? '왼쪽 메뉴에서 제작 도구를 선택하세요.' : '설정에서 구분과 도구를 추가하세요.'; updateLoading(); return; }
+  if (!t) { empty.style.display = 'flex'; empty.textContent = data.groups.length ? '왼쪽 메뉴에서 제작 도구를 선택하세요.' : '설정에서 카테고리와 제작 도구를 추가하세요.'; updateLoading(); return; }
   empty.style.display = 'none';
   let f = frames.get(t.id);
   if (!f) {
@@ -307,24 +310,24 @@ function renderPop() {
   draft.groups.forEach((g, gi) => {
     const box = el('div', { class: 'grp' });
     box.append(el('div', { class: 'row' }, [
-      el('input', { type: 'text', class: 'gname', value: g.name, placeholder: '구분명 (예: 초등)', oninput: e => { g.name = e.target.value; } }),
-      iconBtn(ICON.up, '위로', () => { move(draft.groups, gi, -1); renderPop(); }),
-      iconBtn(ICON.down, '아래로', () => { move(draft.groups, gi, 1); renderPop(); }),
-      iconBtn(ICON.del, '구분 삭제', () => { if (confirm(`'${g.name || '이름 없음'}' 구분과 안의 도구를 모두 삭제할까요?`)) { draft.groups.splice(gi, 1); renderPop(); } }, 'del')
+      el('input', { type: 'text', class: 'gname', value: g.name, placeholder: '카테고리명 (예: 초등)', oninput: e => { g.name = e.target.value; } }),
+      iconBtn(ICON.up, '위로', () => { move(draft.groups, gi, -1); renderPop(); }, 'rb'),
+      iconBtn(ICON.down, '아래로', () => { move(draft.groups, gi, 1); renderPop(); }, 'rb'),
+      iconBtn(ICON.del, '카테고리 삭제', () => { if (confirm(`'${g.name || '이름 없음'}' 카테고리와 안의 제작 도구를 모두 삭제할까요?`)) { draft.groups.splice(gi, 1); renderPop(); } }, 'del rb')
     ]));
     g.tools.forEach((t, ti) => {
       box.append(el('div', { class: 'row tool' }, [
         el('input', { type: 'text', class: 'tn', value: t.name, placeholder: '메뉴명', oninput: e => { t.name = e.target.value; } }),
-        el('input', { type: 'text', value: t.url, placeholder: 'https://...', oninput: e => { t.url = e.target.value; } }),
-        iconBtn(ICON.up, '위로', () => { move(g.tools, ti, -1); renderPop(); }),
-        iconBtn(ICON.down, '아래로', () => { move(g.tools, ti, 1); renderPop(); }),
-        iconBtn(ICON.del, '도구 삭제', () => { g.tools.splice(ti, 1); renderPop(); }, 'del')
+        el('input', { type: 'text', class: 'url', value: t.url, placeholder: 'https://...', oninput: e => { t.url = e.target.value; } }),
+        iconBtn(ICON.up, '위로', () => { move(g.tools, ti, -1); renderPop(); }, 'rb'),
+        iconBtn(ICON.down, '아래로', () => { move(g.tools, ti, 1); renderPop(); }, 'rb'),
+        iconBtn(ICON.del, '도구 삭제', () => { g.tools.splice(ti, 1); renderPop(); }, 'del rb')
       ]));
     });
-    box.append(el('button', { class: 'btn add', onclick: () => { g.tools.push({ id: uid(), name: '', url: '' }); renderPop(); } }, '+ 도구 추가 (URL 입력)'));
+    box.append(el('button', { class: 'btn add', onclick: () => { g.tools.push({ id: uid(), name: '', url: '' }); renderPop(); } }, '+ 제작 도구 추가'));
     pb.append(box);
   });
-  pb.append(el('button', { class: 'btn add', onclick: () => { draft.groups.push({ id: uid(), name: '', tools: [] }); renderPop(); } }, '+ 구분 추가 (리틀, 고등 등)'));
+  pb.append(el('button', { class: 'btn add', onclick: () => { draft.groups.push({ id: uid(), name: '', tools: [] }); renderPop(); } }, '+ 카테고리 추가'));
 }
 async function openSettings() {
   if (!store) return;
@@ -342,7 +345,7 @@ async function saveSettings() {
   const out = { groups: [] };
   for (const g of draft.groups) {
     const name = g.name.trim();
-    if (!name) return setMsg('구분명을 입력하세요.', true);
+    if (!name) return setMsg('카테고리명을 입력하세요.', true);
     const tools = [];
     for (const t of g.tools) {
       const tn = t.name.trim(); let u = t.url.trim();
