@@ -8,7 +8,7 @@
 :root{
   --bg:#ffffff;--text:#1f1f1e;--text2:#6b6b66;--text3:#9a9a94;
   --line:#e4e4df;--line2:#d4d4ce;--hover:#f0f0ec;--danger:#c0392b;
-  --ink:#222222;--focus:#ff4f14;--url:#666666;--ov:rgba(0,0,0,.4);
+  --ink:#222222;--focus:#ff622e;--url:#666666;--ov:rgba(0,0,0,.4);
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
@@ -17,21 +17,23 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hub{display:grid;grid-template-columns:220px minmax(0,1fr);height:100vh}
 .lnb{display:flex;flex-direction:column;min-width:0;min-height:0;background:#333333;color:#ffffff}
 .hd{display:flex;align-items:center;gap:6px;padding:12px 10px 8px 14px}
-.hd b{flex:1;font-weight:600;font-size:14px;color:#ffffff}
+.hd b{flex:1;font-weight:600;font-size:21px;color:#ffffff}
 .badge{font-size:11px;color:#ffffff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:0 7px}
 .ib{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;background:transparent;border-radius:6px;color:inherit;padding:0}
 .ib svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lnb .ib:hover{background:rgba(255,255,255,.14)}
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.16);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
+.lnb #gear:hover{border-radius:50%}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.16);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
 .tabs::-webkit-scrollbar{display:none}
 .tabs.drag{cursor:grabbing}
-.tab{flex:none;position:relative;padding:10px 12px 18px;border:0;border-radius:0;background:transparent;color:#ffffff;font-weight:600;white-space:nowrap}
-.tab.on{color:#ff6633}
+.tab{flex:none;position:relative;padding:10px 12px 18px;border:0;border-radius:0;background:transparent;color:#ffffff;font-weight:600;font-size:15.6px;white-space:nowrap}
+.tab.on{color:var(--focus)}
 .tab.on::after{content:'';position:absolute;left:12px;right:12px;bottom:12px;height:2px;border-radius:2px;background:var(--focus)}
 .list{flex:1;margin:0;padding:8px;list-style:none;overflow:auto;display:flex;flex-direction:column;gap:4px}
 .it{display:flex;align-items:center;gap:2px;padding:7px 5px 7px 12px;border-radius:8px;cursor:pointer;color:#ffffff;flex:none}
 .it:hover{background:rgba(255,255,255,.1)}
-.it.on{background:var(--focus);font-weight:600}
+.it.on{color:var(--focus);font-weight:600}
+.it.on:hover{background:transparent}
 .it .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .it .ib{visibility:hidden}
 .it:hover .ib,.it.on .ib{visibility:visible}
@@ -66,6 +68,7 @@ input.url{color:var(--url)}
 .ib.rb{flex:none;width:30px;height:30px;border:1px solid var(--line2);border-radius:50%;color:var(--text)}
 .ib.rb svg{width:15px;height:15px}
 .btn{height:36px;padding:0 16px;border:2px solid #eceae9;border-radius:9px;background:transparent;color:var(--ink);font-weight:700}
+.btn:not(.pri):hover{background:#f4f2f1}
 .btn.pri{background:var(--focus);border-color:var(--focus);color:#ffffff}
 .btn.pri:hover{filter:brightness(.92)}
 .btn.add{align-self:flex-start;height:40px;padding:0 21px;font-weight:700;}
