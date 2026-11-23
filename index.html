@@ -42,6 +42,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .none{padding:12px 10px;color:var(--text3)}
 .stage{position:relative;min-width:0;min-height:0;background:var(--bg)}
 .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.loading{position:absolute;inset:0;z-index:2;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);color:var(--text3)}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 .empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text3);text-align:center;padding:24px}
 .ov{position:fixed;inset:0;background:var(--ov);display:flex;align-items:center;justify-content:center;z-index:10;padding:16px}
 .ov[hidden]{display:none}
@@ -79,7 +82,7 @@ input[type=text]:focus{outline:2px solid var(--accent);outline-offset:-1px}
     <nav class="tabs" id="tabs" aria-label="구분"></nav>
     <ul class="list" id="list"></ul>
   </aside>
-  <main class="stage" id="stage"><div class="empty" id="empty"></div></main>
+  <main class="stage" id="stage"><div class="empty" id="empty"></div><div class="loading" id="loading" role="status"><div class="spin"></div><span>불러오는 중…</span></div></main>
 </div>
 
 <div class="ov" id="ov" hidden>
@@ -109,6 +112,9 @@ const FIREBASE_CONFIG = {
 };
 */
 const DOC_PATH = ['hub', 'config'];
+/* 로그인 허용 계정. firestore.rules 의 이메일 목록과 항상 같게 유지하세요. */
+const ALLOWED_EMAILS = ['sgedu.contents@gmail.com'];
+const isAllowed = u => !!u && ALLOWED_EMAILS.includes((u.email || '').toLowerCase());
 const BASE = 'https://iscreamedu.github.io/';
 const DEFAULT = { groups: [
   { id: 'g1', name: '초등', tools: [
@@ -175,10 +181,19 @@ async function initStore() {
     data = snap.exists() && snap.data().groups ? { groups: snap.data().groups } : clone(DEFAULT);
     onData();
   }, err => { console.error(err); onData(); });
-  au.onAuthStateChanged(auth, u => { user = u; refreshWho(); });
+  au.onAuthStateChanged(auth, u => {
+    if (u && !isAllowed(u)) { au.signOut(auth); return; }
+    user = u; refreshWho();
+  });
   store = {
     needLogin: true,
-    async login() { await au.signInWithPopup(auth, new au.GoogleAuthProvider()); },
+    async login() {
+      const r = await au.signInWithPopup(auth, new au.GoogleAuthProvider());
+      if (!isAllowed(r.user)) {
+        await au.signOut(auth);
+        const e = new Error('not-allowed'); e.code = 'not-allowed'; throw e;
+      }
+    },
     async logout() { await au.signOut(auth); },
     async save(d) { await fs.setDoc(ref, { groups: d.groups, updatedAt: fs.serverTimestamp(), updatedBy: user ? user.email : '' }); }
   };
@@ -200,7 +215,7 @@ function onData() {
   data.groups.forEach(g => g.tools.forEach(t => {
     alive.add(t.id);
     const f = frames.get(t.id);
-    if (f && f.url !== t.url) { f.el.src = t.url; f.url = t.url; }
+    if (f && f.url !== t.url) { startLoad(f); f.el.src = t.url; f.url = t.url; }
   }));
   for (const [id, f] of frames) if (!alive.has(id)) { f.el.remove(); frames.delete(id); }
   normalizeSelection();
@@ -233,19 +248,32 @@ function showTool() {
   const t = curT && data.groups.flatMap(g => g.tools).find(x => x.id === curT);
   for (const [, f] of frames) f.el.style.display = 'none';
   const empty = $('empty');
-  if (!t) { empty.style.display = 'flex'; empty.textContent = data.groups.length ? '왼쪽 메뉴에서 제작 도구를 선택하세요.' : '설정에서 구분과 도구를 추가하세요.'; return; }
+  if (!t) { empty.style.display = 'flex'; empty.textContent = data.groups.length ? '왼쪽 메뉴에서 제작 도구를 선택하세요.' : '설정에서 구분과 도구를 추가하세요.'; updateLoading(); return; }
   empty.style.display = 'none';
   let f = frames.get(t.id);
   if (!f) {
-    const i = el('iframe', { src: t.url, title: t.name, allow: 'clipboard-read; clipboard-write; fullscreen; downloads' });
-    $('stage').append(i); f = { el: i, url: t.url }; frames.set(t.id, f);
+    f = { el: null, url: t.url, loading: false, tm: 0 };
+    f.el = el('iframe', { src: t.url, title: t.name, allow: 'clipboard-read; clipboard-write; fullscreen; downloads' });
+    f.el.addEventListener('load', () => { f.loading = false; clearTimeout(f.tm); updateLoading(); });
+    startLoad(f);
+    $('stage').append(f.el); frames.set(t.id, f);
   }
   f.el.style.display = 'block';
+  updateLoading();
+}
+function startLoad(f) {
+  f.loading = true; clearTimeout(f.tm);
+  f.tm = setTimeout(() => { f.loading = false; updateLoading(); }, 15000);
+}
+function updateLoading() {
+  const f = curT && frames.get(curT);
+  $('loading').style.display = f && f.loading ? 'flex' : 'none';
 }
 function refreshTool(t) {
   const f = frames.get(t.id);
   if (!f) { curT = t.id; showTool(); return; }
   const u = new URL(t.url, location.href); u.searchParams.set('_hub', Date.now());
+  startLoad(f); updateLoading();
   f.el.src = u.toString();
 }
 
@@ -301,7 +329,10 @@ function renderPop() {
 async function openSettings() {
   if (!store) return;
   if (store.needLogin && !user) {
-    try { await store.login(); } catch (e) { alert('로그인하지 못했습니다. 팝업 차단을 해제한 뒤 다시 시도하세요.'); return; }
+    try { await store.login(); } catch (e) {
+      alert(e && e.code === 'not-allowed' ? '허용된 계정이 아닙니다. 지정된 계정으로 로그인하세요.' : '로그인하지 못했습니다. 팝업 차단을 해제한 뒤 다시 시도하세요.');
+      return;
+    }
   }
   draft = clone(data); setMsg('저장하면 팀 전체에 반영됩니다.'); refreshWho();
   renderPop(); $('ov').hidden = false;
