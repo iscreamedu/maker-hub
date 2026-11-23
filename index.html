@@ -25,9 +25,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tabs{display:flex;gap:6px;overflow-x:auto;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.16);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
 .tabs::-webkit-scrollbar{display:none}
 .tabs.drag{cursor:grabbing}
-.tab{flex:none;position:relative;padding:10px 12px 14px;border:0;border-radius:0;background:transparent;color:#ffffff;font-weight:600;white-space:nowrap}
+.tab{flex:none;position:relative;padding:10px 12px 18px;border:0;border-radius:0;background:transparent;color:#ffffff;font-weight:600;white-space:nowrap}
 .tab.on{color:#ff6633}
-.tab.on::after{content:'';position:absolute;left:12px;right:12px;bottom:6px;height:3px;border-radius:3px;background:var(--focus)}
+.tab.on::after{content:'';position:absolute;left:12px;right:12px;bottom:12px;height:2px;border-radius:2px;background:var(--focus)}
 .list{flex:1;margin:0;padding:8px;list-style:none;overflow:auto;display:flex;flex-direction:column;gap:4px}
 .it{display:flex;align-items:center;gap:2px;padding:7px 5px 7px 12px;border-radius:8px;cursor:pointer;color:#ffffff;flex:none}
 .it:hover{background:rgba(255,255,255,.1)}
@@ -53,7 +53,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .who{font-size:12px;color:var(--text2)}
 .pop .ib:hover{background:var(--hover)}
 .pop #close{width:36px;height:36px}
-.pop #close:hover{border-radius:50%;background:#f4f2f1}
+.pop #close:hover{border-radius:50%;background:transparent;border:1px solid #eceae9}
 .pb{padding:20px;overflow:auto;display:flex;flex-direction:column;gap:0}
 .grp{display:flex;flex-direction:column;gap:8px;padding:20px 0;border-bottom:1px solid var(--line)}
 .grp:first-child{padding-top:0}
@@ -65,8 +65,7 @@ input[type=text].gname{font-weight:700;font-size:14px}
 input.url{color:var(--url)}
 .ib.rb{flex:none;width:30px;height:30px;border:1px solid var(--line2);border-radius:50%;color:var(--text)}
 .ib.rb svg{width:15px;height:15px}
-.btn{height:36px;padding:0 16px;border:0;border-radius:9px;background:#f4f2f1;color:var(--ink);font-weight:700}
-.btn:hover{filter:brightness(.96)}
+.btn{height:36px;padding:0 16px;border:2px solid #eceae9;border-radius:9px;background:transparent;color:var(--ink);font-weight:700}
 .btn.pri{background:var(--focus);border-color:var(--focus);color:#ffffff}
 .btn.pri:hover{filter:brightness(.92)}
 .btn.add{align-self:flex-start;height:40px;padding:0 21px;font-weight:700;}
